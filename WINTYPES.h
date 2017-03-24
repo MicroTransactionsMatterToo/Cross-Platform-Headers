@@ -1,12 +1,18 @@
-// Windows Types for NON-Windows platforms. Types are based off of the Windows 10 SDK, and while they work on Windows, you should use the actual SDK 
+// Windows Types for NON-Windows platforms. Types are based off of the Windows 10 SDK, and while they work on Windows, you should use the actual SDK
 /*
-Copyright 2017 Ennis Massey
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * Basic Windows Types - Used throughout the rest of the SDK
+ */
+/*
+* Copyright 2017 Ennis Massey
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 // Credit for basic types goes to the people at Microsoft who trawl through these stupidly large headers
 
@@ -18,28 +24,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #endif
 
 
-#ifdef STRICT
-typedef void *HANDLE;
-#if 0 && (_MSC_VER > 1000)
-#define DECLARE_HANDLE(name) struct name##__; typedef struct name##__ *name
-#else
-#define DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
-#endif
-#else
-typedef PVOID HANDLE;
-#define DECLARE_HANDLE(name) typedef HANDLE name;
-#endif
-typedef HANDLE *PHANDLE;
-
-
-
 #if __MACH__ && __APPLE__ || __gnu_linux__
 #define POSIXCOMPLIANT 1
 #define WINDOWS 0
+
 #include <stdint.h>
+
 #define FAR
 typedef uint64_t __uint64;
-typedef int64_t  __int64;
+typedef int64_t __int64;
 #elif _WIN32
 #define WINDOWS 1
 #define POSIXCOMPLIANT 0
@@ -252,6 +245,19 @@ typedef LPCSTR PCTSTR;
 #endif /* UNICODE */
 #endif /* P_BASIC_TYPE_POINTERS */
 
+#ifdef STRICT
+typedef void *HANDLE;
+#if 0 && (_MSC_VER > 1000)
+#define DECLARE_HANDLE(name) struct name##__; typedef struct name##__ *name
+#else
+#define DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
+#endif
+#else
+typedef PVOID HANDLE;
+#define DECLARE_HANDLE(name) typedef HANDLE name;
+#endif
+typedef HANDLE *PHANDLE;
+
 #ifndef WINDOWS_ADV_TYPES
 typedef PVOID HANDLE;
 DECLARE_HANDLE(HBITMAP)
@@ -287,7 +293,7 @@ DECLARE_HANDLE(HWND)
 DECLARE_HANDLE(SC_HANDLE)
 DECLARE_HANDLE(SERVICE_STATUS_HANDLE)
 
-#if (WINVER >= 0x0500) 
+#if (WINVER >= 0x0500)
 typedef HANDLE HMONITOR;
 #endif
 typedef int HFILE;
@@ -304,9 +310,9 @@ typedef ULONG_PTR SIZE_T;
 typedef LONG_PTR SSIZE_T;
 
 typedef struct _UNICODE_STRING {
-	USHORT Length;
-	USHORT MaximumLength;
-	PWSTR Buffer;
+    USHORT Length;
+    USHORT MaximumLength;
+    PWSTR Buffer;
 } UNICODE_STRING;
 typedef UNICODE_STRING *PUNICODE_STRING;
 typedef const UNICODE_STRING *PCUNICODE_STRING;
